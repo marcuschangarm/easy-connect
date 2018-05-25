@@ -203,6 +203,10 @@ Please try out the reliability of your networking stack using
 [stress-test](https://github.com/ARMmbed/mbed-stress-test) to ensure
 your stack is performing as expected.
 
+## Too large binary size?
+
+Easy-connect will pull in all of the network drivers and as there is no global configuration yet to disable the compilation of unnecessary drivers this means in practice that some of the code will get compiled and linked in, even though it is not used. So, if you are really tight on the binary size we recommend you disable the configuration of unnecessary network drivers with a `.mbedignore` -file located in the root of your application.
+
 ## Extra defines
 
 If you'd like to use Easy Connect with mbed Client then you're in luck. Easy Connect automatically defines the `MBED_SERVER_ADDRESS` macro depending on your connectivity method (either IPv4 or IPv6 address). Use this address to connect to the right instance of mbed Device Connector.
