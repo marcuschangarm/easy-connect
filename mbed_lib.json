@@ -1,62 +1,62 @@
 {
     "name": "easy-connect",
     "config": {
-        "wifi-esp8266-tx": {
-            "help": "TX pin for serial connection to external device (ESP8266)",
-            "value": "D1"
+        "network-interface": {
+            "help": "Options are ETHERNET, WIFI_ESP8266, WIFI_IDW0XX1, WIFI_ODIN, WIFI_RTW, WIFI_WIZFI310, WIFI_ISM43362, MESH_LOWPAN_ND, MESH_THREAD, CELLULAR, CELLULAR_ONBOARD",
+            "value": null
         },
-        "wifi-esp8266-rx": {
-            "help": "RX pin for serial connection to external device (ESP8266)",
-            "value": "D0"
+        "network-interface-header": {
+            "help": "The header file for interface",
+            "value": null
         },
-        "wifi-esp8266-debug": {
-            "help": "Enable debug logs for (ESP8266)",
-            "value": false
+        "network-interface-class": {
+            "help": "The class name for interface",
+            "value": null
         },
-        "wifi-idw01m1-tx": {
-            "help": "TX pin for serial connection to external device (X-NUCLEO-IDW01M1)",
-            "value": "PA_9"
+        "network-interface-name": {
+            "help": "The name (string) for interface",
+            "value": "\"Undefined\""
         },
-        "wifi-idw01m1-rx": {
-            "help": "RX pin for serial connection to external device (X-NUCLEO-IDW01M1)",
-            "value": "PA_10"
+        "mesh-radio-type": {
+            "help": "Options are ATMEL, MCR20, SPIRIT1, EFR32",
+            "value": null
         },
-        "wifi-idw04a1-tx": {
-            "help": "TX pin for serial connection to external device (X-NUCLEO-IDW04A1)",
-            "value": "D8"
+        "mesh-type": {
+            "help": "Mesh type (string) used for logging",
+            "value": "\"Undefined\""
         },
-        "wifi-idw04a1-rx": {
-            "help": "RX pin for serial connection to external device (X-NUCLEO-IDW04A1)",
-            "value": "D2"
+        "wifi-type": {
+            "help": "WIFI type (string) used for logging",
+            "value": "\"Undefined\""
         },
-        "wifi-wizfi310-tx": {
-            "help": "TX pin for serial connection to external device (WizFi310)",
-            "value": "D1"
+        "wifi-ssid": {
+            "help": "WiFi SSID",
+            "value": null
         },
-        "wifi-wizfi310-rx": {
-            "help": "RX pin for serial connection to external device (WizFi310)",
-            "value": "D0"
+        "wifi-password": {
+            "help": "WiFi Password",
+            "value": null
         },
-        "wifi-wizfi310-debug": {
-            "help": "Enable debug logs for (WizFi310)",
-            "value": false
+        "cellular-sim-pin": {
+            "help": "Cellular SIM PIN",
+            "value": null
+        },
+        "cellular-apn": {
+            "help": "Cellular APN",
+            "value": null
+        },
+        "cellular-username": {
+            "help": "Cellular username",
+            "value": null
+        },
+        "cellular-password": {
+            "help": "Cellular Password",
+            "value": null
         }
     },
     "target_overrides": {
         "*": {
             "target.features_add": ["COMMON_PAL"]
-        },
-         "HEXIWEAR": {
-            "wifi-esp8266-tx": "PTD3",
-            "wifi-esp8266-rx": "PTD2"
-        },
-        "NUCLEO_F401RE": {
-            "wifi-esp8266-tx": "D8",
-            "wifi-esp8266-rx": "D2"
-        },
-        "NUCLEO_F411RE": {
-            "wifi-esp8266-tx": "D8",
-            "wifi-esp8266-rx": "D2"
         }
      }
 }

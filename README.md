@@ -8,17 +8,14 @@ Add the following to your `mbed_app.json` file:
 
 ```json
 {
-    "config": {
-        "network-interface":{
-            "help": "options are ETHERNET, WIFI_ESP8266, WIFI_IDW0XX1, WIFI_ODIN, WIFI_RTW, WIFI_WIZFI310, WIFI_ISM43362, MESH_LOWPAN_ND, MESH_THREAD, CELLULAR_ONBOARD",
-            "value": "ETHERNET"
-        }
-    },
     "target_overrides": {
         "*": {
             "target.features_add": ["NANOSTACK", "LOWPAN_ROUTER", "COMMON_PAL"],
             "mbed-mesh-api.6lowpan-nd-channel-page": 0,
-            "mbed-mesh-api.6lowpan-nd-channel": 12
+            "mbed-mesh-api.6lowpan-nd-channel": 12,
+            "easy-connect.network-interface": "ETHERNET",
+            "easy-connect.network-interface-header": "\"EthernetInterface.h\"",
+            "easy-connect.network-interface-class": "EthernetInterface"
         }
     }
 }
@@ -48,34 +45,33 @@ With Mbed OS 5.9, the EMAC SW was refactored and a default network selector is u
 
 ### Other WiFi stacks
 
+Options for "network-interface" are ETHERNET, WIFI_ESP8266, WIFI_IDW0XX1, WIFI_ODIN, WIFI_RTW, WIFI_WIZFI310, WIFI_ISM43362, MESH_LOWPAN_ND, MESH_THREAD, CELLULAR_ONBOARD
 If you select `WIFI_ESP8266`, `WIFI_IDW0XX1`, `WIFI_ODIN` or `WIFI_RTW`, `WIFI_WIZFI310` you also need to add the WiFi SSID and password:
 
 ```json
-    "config": {
-        "network-interface":{
-            "help": "options are ETHERNET, WIFI_ESP8266, WIFI_IDW0XX1, WIFI_ODIN, WIFI_RTW, WIFI_WIZFI310, WIFI_ISM43362, MESH_LOWPAN_ND, MESH_THREAD, CELLULAR_ONBOARD",
-            "value": "WIFI_ESP8266"
-        },
-        "wifi-ssid": {
-            "value": "\"SSID\""
-        },
-        "wifi-password": {
-            "value": "\"Password\""
+    "target_overrides": {
+        "*": {
+            "easy-connect.wifi-type": "\"ESP8266\"",
+            "easy-connect.network-interface": "WIFI_ESP8266",
+            "easy-connect.network-interface-header": "\"ESP8266Interface.h\"",
+            "easy-connect.network-interface-class": "ESP8266Interface",
+            "easy-connect.wifi-ssid": "\"SSID\"",
+            "easy-connect.wifi-password": "\"Password\""
         }
     }
 ```
 
 If you use `MESH_LOWPAN_ND` or `MESH_THREAD` you need to specify your radio module:
+Options are ATMEL, MCR20, SPIRIT1, EFR32.
 
 ```json
-    "config": {
-        "network-interface":{
-            "help": "options are ETHERNET, WIFI_ESP8266, WIFI_IDW0XX1, WIFI_ODIN, WIFI_RTW, WIFI_WIZFI310, MESH_LOWPAN_ND, MESH_THREAD, CELLULAR_ONBOARD",
-            "value": "MESH_LOWPAN_ND"
-        },
-        "mesh_radio_type": {
-        	"help": "options are ATMEL, MCR20, SPIRIT1, EFR32",
-        	"value": "ATMEL"
+    "target_overrides": {
+        "*": {
+            "easy-connect.network-interface": "MESH_LOWPAN_ND",
+            "easy-connect.mesh-radio-type": "ATMEL",
+            "easy-connect.mesh-type": "\"ATMEL\"",
+            "easy-connect.network-interface-header": "\"NanostackInterface.h\"",
+            "easy-connect.network-interface-class": "LoWPANNDInterface"
         }
     }
 ```
@@ -146,7 +142,7 @@ int main(int, char**) {
     char* wifi_SSID = "SSID";
     char* wifi_password = "password";
 
-    NetworkInterface* network = easy_connect(true, wifi_SSID, wifi_password); 
+    NetworkInterface* network = easy_connect(true, wifi_SSID, wifi_password);
     if (!network) {
         printf("Connecting to the network failed... See serial output.\r\n");
         return 1;
@@ -159,7 +155,7 @@ int main(int, char**) {
 ## Overriding settings
 
 Easy-connect was changed recently with [PR #59](https://github.com/ARMmbed/easy-connect/pull/59) - where some of the defines expected via `mbed_app.json` were
-moved to the [`mbed_lib.json`](https://github.com/ARMmbed/easy-connect/blob/master/mbed_lib.json). 
+moved to the [`mbed_lib.json`](https://github.com/ARMmbed/easy-connect/blob/master/mbed_lib.json).
 This minimises the amount of lines needed (in typical cases) in the applications `mbed_app.json`. However, due to this the overrides
 need to be done slightly differently, as you need to override the `easy-connect` defines.
 
@@ -182,7 +178,7 @@ There are many things that you have to modify for all of the combinations. Examp
 
 ## Linking error with UBLOX_EVK_ODIN_W2
 
-If you get a linking error such as below, you are compiling the `WIFI_ODIN` with the `EMAC override` section in `mbed_app.json`. Remove the `EMAC override` from your `mbed_app.json`. 
+If you get a linking error such as below, you are compiling the `WIFI_ODIN` with the `EMAC override` section in `mbed_app.json`. Remove the `EMAC override` from your `mbed_app.json`.
 
 ```
 Link: tls-client
